@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app.py:/app/app.py
+    environment:
+      FLASK_DEBUG: 1
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./openapi.yaml:/openapi.yaml
+    environment:
+      SWAGGER_JSON: /openapi.yaml
+    depends_on:
+      - api

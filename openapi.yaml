@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Author and Author-Article API
+  version: 1.0.0
+  description: API to retrieve author and article information
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /author:
+    get:
+      summary: Get author by ID
+      parameters:
+        - name: authorid
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: ID of the author to retrieve
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Author not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /author-article:
+    get:
+      summary: Get article by author ID
+      parameters:
+        - name: authorid
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: ID of the author whose article to retrieve
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '404':
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author_id:
+          type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
